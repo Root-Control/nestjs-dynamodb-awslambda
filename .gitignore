@@ -1,4 +1,6 @@
 # compiled output
+/.serverless
+.serverless
 /dist
 /node_modules
 /credentials.json
