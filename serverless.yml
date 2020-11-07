@@ -1,0 +1,27 @@
+service: serverless-dynamo
+
+plugins:
+ - serverless-offline
+ 
+custom:
+  secrets: ${file(./secrets.yml):${self:provider.stage}}
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: ${opt:stage, 'develop'}
+  environment:
+    AWS_KEY: ${self:custom.secrets.AWS_KEY}
+    AWS_SECRET: ${self:custom.secrets.AWS_SECRET}
+    REGION: ${self:custom.secrets.REGION}
+  apiGateway:
+    shouldStartNameWithService: true
+
+
+functions:
+ main:
+   handler: dist/serverless.handler
+   events:
+     - http:
+         method: any
+         path: /{any+}
